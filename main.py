@@ -8,11 +8,17 @@ def main():
         pygame.init()
         screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         time = pygame.time.Clock()
+        
+        # Groups the sprites together
+        drawable = pygame.sprite.Group()
+        updatable = pygame.sprite.Group()
+        
+        Player.containers = (updatable, drawable)
+        
         player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
         dt = 0
+        
 
-        
-        
         running = True
         while running:
             for event in pygame.event.get():
@@ -20,10 +26,13 @@ def main():
                    return
             
             # Added controls to sprite
-            Player.update(player, dt)    
+            updatable.update(dt)    
             
             screen.fill(0)
-            player.draw(screen)
+
+            # Calling group
+            for sprite in drawable:
+                sprite.draw(screen)
             
             pygame.display.flip()
             
