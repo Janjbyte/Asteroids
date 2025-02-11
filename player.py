@@ -7,7 +7,8 @@ class Player(CircleShape):
     def __init__(self, x, y):
         super().__init__(x, y, PLAYER_RADIUS)
         self.rotation = 0
-    
+        self.shoot_cd = 0
+
     # Sprite turns into a triangle
     def triangle(self):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
@@ -27,11 +28,18 @@ class Player(CircleShape):
     def rotate(self, dt):
         self.rotation += PLAYER_TURN_SPEED * dt
 
+    # Create a bullet on player position with a constant velocity
     def shoot(self):
-        shoot = pygame.Vector2(0, 1).rotate(self.rotation) * PLAYER_SHOOT_SPEED
-        Shot(self.position.x, self.position.y, shoot)
+        if self.shoot_cd > 0:
+            return
+        shot = Shot(self.position.x, self.position.y)
+        shot.velocity = pygame.Vector2(0, 1).rotate(self.rotation) * PLAYER_SHOOT_SPEED
+        self.shoot_cd = PLAYER_SHOOT_COOLDOWN
+
+        
 
     def update(self, dt):
+        self.shoot_cd -= dt
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_a]:

@@ -23,7 +23,7 @@ def main():
         Player.containers = (updatable, drawable)
         Asteroid.containers = (asteroids, updatable, drawable)
         AsteroidField.containers = (updatable)
-        Shot.containers = (updatable, drawable)
+        Shot.containers = (shots, updatable, drawable)
         
         asteroid_field = AsteroidField()
     
@@ -39,7 +39,7 @@ def main():
             
             # Added controls to sprite
             for obj in updatable: 
-                obj.update(dt)    
+                obj.update(dt)
             
             for aster in asteroids:
                 if aster.check_for_collision(player) == True:
