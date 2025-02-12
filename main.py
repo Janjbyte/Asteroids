@@ -44,6 +44,11 @@ def main():
             for aster in asteroids:
                 if aster.check_for_collision(player) == True:
                     sys.exit("Game over!")
+                for shot in shots:
+                    if aster.check_for_collision(shot) == True:
+                       aster.kill()
+                       shot.kill()
+
                 
 
             screen.fill(0)
